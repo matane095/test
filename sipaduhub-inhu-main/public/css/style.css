@@ -1,0 +1,197 @@
+:root {
+  --dishub-ungu: #301D6E;
+  --dishub-ungu-tua: #1E1244;
+  --dishub-emas: #FFC412;
+  --dishub-emas-tua: #D9A600;
+  --abu-terang: #F4F5F7;
+  --teks: #1E2226;
+}
+
+body {
+  font-family: 'Inter', sans-serif;
+  background: var(--abu-terang);
+  color: var(--teks);
+}
+
+/* KOP SURAT / HEADER RESMI */
+.kop-instansi {
+  background: linear-gradient(120deg, var(--dishub-ungu-tua), var(--dishub-ungu));
+  color: #fff;
+  border-bottom: 4px solid var(--dishub-emas);
+  padding: 16px 0;
+}
+.kop-instansi .logo-box {
+  width: 58px;
+  height: 58px;
+  flex-shrink: 0;
+  overflow: hidden;
+}
+.kop-instansi .logo-box img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+.kop-instansi .instansi-nama {
+  font-family: 'Merriweather', serif;
+  font-weight: 700;
+  font-size: 17px;
+  line-height: 1.3;
+  margin: 0;
+}
+.kop-instansi .instansi-sub {
+  font-size: 12.5px;
+  color: rgba(255,255,255,0.75);
+  margin: 0;
+}
+
+/* NAVBAR PETUGAS */
+.navbar-petugas {
+  background: var(--dishub-ungu-tua) !important;
+  border-bottom: 3px solid var(--dishub-emas);
+}
+
+/* NAVBAR PUBLIK */
+.navbar-publik {
+  background: var(--dishub-ungu) !important;
+  border-bottom: 3px solid var(--dishub-emas);
+}
+.navbar-publik .nav-link {
+  color: rgba(255,255,255,0.85);
+  font-weight: 500;
+  font-size: 14.5px;
+}
+.navbar-publik .nav-link:hover,
+.navbar-publik .nav-link.active {
+  color: var(--dishub-emas);
+}
+.navbar-publik .navbar-brand {
+  color: #fff;
+}
+
+/* HERO BERANDA */
+.hero-beranda {
+  background: linear-gradient(120deg, var(--dishub-ungu-tua), var(--dishub-ungu));
+  color: #fff;
+  padding: 56px 0;
+}
+.hero-beranda p { color: rgba(255,255,255,0.85); }
+.kartu-statistik {
+  border-radius: 10px;
+  border: none;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.06);
+  text-align: center;
+  padding: 20px;
+}
+.kartu-statistik .angka {
+  font-family: 'Merriweather', serif;
+  font-size: 32px;
+  font-weight: 700;
+  color: var(--dishub-ungu);
+}
+.kartu-langkah .nomor-langkah {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: var(--dishub-ungu);
+  color: #fff;
+  font-weight: 700;
+  margin-bottom: 10px;
+}
+
+/* TOMBOL & AKSEN */
+.btn-success, .btn-primary {
+  background-color: var(--dishub-ungu);
+  border-color: var(--dishub-ungu);
+}
+.btn-success:hover, .btn-primary:hover {
+  background-color: var(--dishub-ungu-tua);
+  border-color: var(--dishub-ungu-tua);
+}
+.btn-outline-primary {
+  color: var(--dishub-ungu);
+  border-color: var(--dishub-ungu);
+}
+.btn-outline-primary:hover {
+  background-color: var(--dishub-ungu);
+  border-color: var(--dishub-ungu);
+}
+.badge.bg-primary { background-color: var(--dishub-ungu) !important; }
+.badge.bg-warning { background-color: var(--dishub-emas) !important; color: var(--teks) !important; }
+
+.card {
+  border: none;
+  border-radius: 10px;
+}
+
+/* FOOTER */
+.footer-resmi {
+  background: var(--dishub-ungu-tua);
+  color: rgba(255,255,255,0.7);
+  font-size: 12.5px;
+  padding: 18px 0;
+  text-align: center;
+  border-top: 3px solid var(--dishub-emas);
+}
+
+/* Footer nempel di bawah */
+html { height: 100%; }
+body { display: flex; flex-direction: column; min-height: 100vh; }
+.footer-resmi { margin-top: auto; }
+
+/* Tabel bisa di-scroll di layar kecil */
+.table-scroll-wrap {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+.table-scroll-wrap table {
+  min-width: 720px;
+}
+.toast-pengaduan {
+  background: #fff;
+  border-left: 5px solid var(--dishub-emas);
+  border-radius: 8px;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.18);
+  padding: 14px 16px;
+  cursor: pointer;
+  animation: geser-masuk 0.3s ease-out;
+}
+.toast-pengaduan:hover {
+  background: #FAFAFA;
+}
+.toast-pengaduan .toast-judul {
+  font-family: 'Oswald', sans-serif;
+  font-weight: 600;
+  font-size: 13px;
+  color: var(--dishub-ungu);
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+.toast-pengaduan {
+  background: #fff;
+  border-left: 6px solid var(--dishub-emas);
+  border-radius: 10px;
+  box-shadow: 0 6px 20px rgba(0,0,0,0.22);
+  padding: 18px 20px;
+  cursor: pointer;
+  animation: geser-masuk 0.3s ease-out;
+}
+.toast-pengaduan:hover {
+  background: #FAFAFA;
+}
+.toast-pengaduan .toast-judul {
+  font-family: 'Oswald', sans-serif;
+  font-weight: 600;
+  font-size: 15px;
+  color: var(--dishub-ungu);
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+.toast-pengaduan .toast-isi {
+  font-size: 14.5px;
+  color: var(--teks);
+  margin-top: 5px;
+  line-height: 1.4;
+}
