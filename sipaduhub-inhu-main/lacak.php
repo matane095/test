@@ -38,13 +38,23 @@ $label_status = [
     'selesai'  => 'Selesai',
     'ditolak'  => 'Ditolak'
 ];
+$warna_status_lacak = [
+    'diterima' => 'primary',
+    'diproses' => 'warning',
+    'selesai'  => 'success',
+    'ditolak'  => 'danger'
+];
 ?>
 
-<div class="container py-5">
-  <a href="index.php" class="btn btn-outline-secondary btn-sm mb-3">&larr; Kembali</a>
-  <h2 class="mb-4">Lacak Pengaduan</h2>
+<div class="section-heading">
+  <div class="container">
+    <h1><i class="bi bi-search"></i> Lacak Pengaduan</h1>
+    <p>Masukkan nomor tiket yang kamu terima saat mengajukan pengaduan untuk melihat status terkini.</p>
+  </div>
+</div>
 
-  <form method="POST" class="card p-4 shadow-sm mb-4">
+<div class="container py-5">
+  <form method="POST" class="kartu-formulir mb-4">
     <div class="mb-3">
       <label class="form-label">Nomor Tiket</label>
       <input type="text" name="ticket" class="form-control" placeholder="cth. HUB-260816-A1B2"
@@ -58,10 +68,10 @@ $label_status = [
   <?php endif; ?>
 
   <?php if ($hasil): ?>
-    <div class="card p-4 shadow-sm">
+    <div class="kartu-formulir">
       <div class="d-flex justify-content-between align-items-center mb-2">
-        <strong><?= htmlspecialchars($hasil['ticket']) ?></strong>
-        <span class="badge bg-primary"><?= $label_status[$hasil['status']] ?></span>
+        <strong class="font-display"><?= htmlspecialchars($hasil['ticket']) ?></strong>
+        <span class="badge bg-<?= $warna_status_lacak[$hasil['status']] ?? 'primary' ?>"><?= $label_status[$hasil['status']] ?></span>
       </div>
       <p class="text-muted mb-3"><?= htmlspecialchars($hasil['nama_kategori']) ?> &middot; <?= htmlspecialchars($hasil['lokasi']) ?></p>
 
@@ -72,12 +82,12 @@ $label_status = [
         <a href="https://www.openstreetmap.org/?mlat=<?= $hasil['latitude'] ?>&mlon=<?= $hasil['longitude'] ?>#map=17/<?= $hasil['latitude'] ?>/<?= $hasil['longitude'] ?>" target="_blank" class="btn btn-outline-secondary btn-sm mb-2">🗺️ Lihat Titik Lokasi di Peta</a>
       <?php endif; ?>
 
-      <h6 class="mt-3">Riwayat Status</h6>
-      <ul class="list-group">
+      <h6 class="mt-3 mb-2">Riwayat Status</h6>
+      <ul class="list-group list-group-flush">
         <?php while ($r = mysqli_fetch_assoc($riwayat)): ?>
-          <li class="list-group-item">
-            <strong><?= $label_status[$r['status']] ?></strong>
-            <div class="text-muted small"><?= date('d M Y, H:i', strtotime($r['waktu'])) ?></div>
+          <li class="list-group-item px-0">
+            <span class="badge bg-<?= $warna_status_lacak[$r['status']] ?? 'primary' ?> me-2"><?= $label_status[$r['status']] ?></span>
+            <span class="text-muted small"><?= date('d M Y, H:i', strtotime($r['waktu'])) ?></span>
             <?php if ($r['catatan']): ?>
               <div class="mt-1"><?= htmlspecialchars($r['catatan']) ?></div>
             <?php endif; ?>

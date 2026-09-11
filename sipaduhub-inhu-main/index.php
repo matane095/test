@@ -24,18 +24,20 @@ $kategori_list = mysqli_query($koneksi, "SELECT * FROM kategori ORDER BY nama_ka
 
 <div class="hero-beranda">
   <div class="container">
-    <h1 class="mb-2" style="font-family:'Merriweather',serif; font-size: 32px;">SIPADU HUB</h1>
-    <p class="mb-4" style="max-width: 640px;">
+    <span class="hero-kicker"><i class="bi bi-geo-alt"></i> Kabupaten Indragiri Hulu</span>
+    <h1><i class="bi bi-signpost-split"></i> SIPADU HUB</h1>
+    <p class="lead-copy mb-4">
       Sistem Informasi Pengaduan Masyarakat Bidang Lalu Lintas, Dinas Perhubungan
       Kabupaten Indragiri Hulu. Sampaikan keluhan seputar transportasi dan lalu lintas
       di wilayah Indragiri Hulu secara online, cepat, dan bisa dilacak statusnya.
     </p>
-    <div class="d-flex gap-2 flex-wrap">
-      <a href="pengaduan.php" class="btn btn-lg" style="background: var(--dishub-emas); color: var(--dishub-ungu-tua); font-weight:600;">Ajukan Pengaduan</a>
-      <a href="lacak.php" class="btn btn-outline-light btn-lg">Lacak Status Pengaduan</a>
+    <div class="hero-aksi d-flex gap-2 flex-wrap">
+      <a href="pengaduan.php" class="btn btn-lg btn-hero-primer">Ajukan Pengaduan</a>
+      <a href="lacak.php" class="btn btn-lg btn-hero-sekunder">Lacak Status Pengaduan</a>
     </div>
   </div>
 </div>
+<div class="marka-jalan"></div>
 
 <div class="container py-5">
 
@@ -43,24 +45,28 @@ $kategori_list = mysqli_query($koneksi, "SELECT * FROM kategori ORDER BY nama_ka
   <div class="row g-3 mb-5">
     <div class="col-6 col-md-3">
       <div class="kartu-statistik">
+        <i class="bi bi-inbox"></i>
         <div class="angka"><?= (int) ($stat['jml_total'] ?? 0) ?></div>
         <div class="text-muted small">Total Pengaduan</div>
       </div>
     </div>
     <div class="col-6 col-md-3">
       <div class="kartu-statistik">
+        <i class="bi bi-envelope-check"></i>
         <div class="angka"><?= (int) ($stat['jml_diterima'] ?? 0) ?></div>
         <div class="text-muted small">Diterima</div>
       </div>
     </div>
     <div class="col-6 col-md-3">
-      <div class="kartu-statistik">
+      <div class="kartu-statistik aksen-emas">
+        <i class="bi bi-hourglass-split"></i>
         <div class="angka"><?= (int) ($stat['jml_diproses'] ?? 0) ?></div>
         <div class="text-muted small">Diproses</div>
       </div>
     </div>
     <div class="col-6 col-md-3">
-      <div class="kartu-statistik">
+      <div class="kartu-statistik aksen-hijau">
+        <i class="bi bi-check2-circle"></i>
         <div class="angka"><?= (int) ($stat['jml_selesai'] ?? 0) ?></div>
         <div class="text-muted small">Selesai</div>
       </div>
@@ -73,27 +79,33 @@ $kategori_list = mysqli_query($koneksi, "SELECT * FROM kategori ORDER BY nama_ka
 
   <h5 class="mb-3">Cara Mengajukan Pengaduan</h5>
   <div class="row g-4 mb-5">
-    <div class="col-md-4 kartu-langkah">
-      <div class="nomor-langkah">1</div>
-      <h6>Isi Form &amp; Verifikasi Email</h6>
-      <p class="text-muted small">Isi form pengaduan beserta lokasi kejadian, lalu masukkan kode OTP yang dikirim ke email Anda (bisa dilewati jika login dengan Google).</p>
+    <div class="col-md-4">
+      <div class="kartu-langkah">
+        <div class="nomor-langkah">1</div>
+        <h6><i class="bi bi-pencil-square text-muted"></i> Isi Form &amp; Verifikasi Email</h6>
+        <p class="text-muted small mb-0">Isi form pengaduan beserta lokasi kejadian, lalu masukkan kode OTP yang dikirim ke email Anda (bisa dilewati jika login dengan Google).</p>
+      </div>
     </div>
-    <div class="col-md-4 kartu-langkah">
-      <div class="nomor-langkah">2</div>
-      <h6>Petugas Menindaklanjuti</h6>
-      <p class="text-muted small">Petugas Bidang Lalu Lintas meninjau dan memproses pengaduan sesuai kategori dan prioritas.</p>
+    <div class="col-md-4">
+      <div class="kartu-langkah">
+        <div class="nomor-langkah">2</div>
+        <h6><i class="bi bi-cone-striped text-muted"></i> Petugas Menindaklanjuti</h6>
+        <p class="text-muted small mb-0">Petugas Bidang Lalu Lintas meninjau dan memproses pengaduan sesuai kategori dan prioritas.</p>
+      </div>
     </div>
-    <div class="col-md-4 kartu-langkah">
-      <div class="nomor-langkah">3</div>
-      <h6>Lacak Status</h6>
-      <p class="text-muted small">Gunakan nomor tiket (atau riwayat otomatis jika login Google) untuk memantau perkembangan pengaduan Anda.</p>
+    <div class="col-md-4">
+      <div class="kartu-langkah">
+        <div class="nomor-langkah">3</div>
+        <h6><i class="bi bi-search text-muted"></i> Lacak Status</h6>
+        <p class="text-muted small mb-0">Gunakan nomor tiket (atau riwayat otomatis jika login Google) untuk memantau perkembangan pengaduan Anda.</p>
+      </div>
     </div>
   </div>
 
   <h5 class="mb-3">Kategori Pengaduan yang Dilayani</h5>
   <div class="d-flex flex-wrap gap-2 mb-3">
     <?php while ($k = mysqli_fetch_assoc($kategori_list)): ?>
-      <span class="badge bg-primary fw-normal px-3 py-2"><?= htmlspecialchars($k['nama_kategori']) ?></span>
+      <span class="badge badge-kategori fw-normal px-3 py-2"><?= htmlspecialchars($k['nama_kategori']) ?></span>
     <?php endwhile; ?>
   </div>
 

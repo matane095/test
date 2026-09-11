@@ -49,6 +49,17 @@ $data = mysqli_stmt_get_result($stmt);
 
 $kategori_list = mysqli_query($koneksi, "SELECT * FROM kategori");
 
+// Ringkasan cepat (semua data terverifikasi, terlepas dari filter yang sedang aktif)
+$ringkas = mysqli_fetch_assoc(mysqli_query($koneksi, "
+    SELECT
+      COUNT(*) AS total,
+      SUM(status = 'diterima') AS total_diterima,
+      SUM(status = 'diproses') AS total_diproses,
+      SUM(status = 'selesai')  AS total_selesai
+    FROM pengaduan
+    WHERE email_terverifikasi = 1 AND disembunyikan = 0
+"));
+
 $label_status = ['diterima'=>'Diterima','diproses'=>'Diproses','selesai'=>'Selesai','ditolak'=>'Ditolak'];
 $warna_status = ['diterima'=>'primary','diproses'=>'warning','selesai'=>'success','ditolak'=>'danger'];
 
@@ -61,11 +72,12 @@ function buatLinkHalaman($halaman, $filter_status, $filter_kategori, $search, $t
 ?>
 
 <nav class="navbar navbar-petugas navbar-dark">
-  <div class="container">
-    <span class="navbar-brand mb-0">Halo, <?= htmlspecialchars($_SESSION['nama']) ?></span>
-    <div>
+  <div class="container flex-wrap gap-2">
+    <span class="navbar-brand mb-0"><i class="bi bi-person-badge"></i> Halo, <?= htmlspecialchars($_SESSION['nama']) ?></span>
+    <div class="d-flex flex-wrap gap-2">
       <button id="btn-notif" class="btn btn-outline-light btn-sm">🔔 Aktifkan Notifikasi</button>
       <a href="statistik.php" class="btn btn-outline-light btn-sm">Statistik</a>
+      <a href="dokumentasi.php" class="btn btn-outline-light btn-sm">Dokumentasi Kegiatan</a>
       <?php if (isset($_SESSION['role']) && $_SESSION['role'] === 'admin'): ?>
         <a href="kelola_petugas.php" class="btn btn-outline-light btn-sm">Kelola Petugas</a>
       <?php endif; ?>
@@ -77,36 +89,65 @@ function buatLinkHalaman($halaman, $filter_status, $filter_kategori, $search, $t
 <div class="container py-4">
   <h4 class="mb-4">Dashboard Pengaduan</h4>
 
-  <form method="GET" class="row g-2 mb-2">
-    <div class="col-md-4">
-      <input type="text" name="search" class="form-control" placeholder="Cari tiket / nama..." value="<?= htmlspecialchars($search) ?>">
-    </div>
-    <div class="col-md-3">
-      <select name="status" class="form-select">
-        <option value="">Semua Status</option>
-        <?php foreach ($label_status as $key => $label): ?>
-          <option value="<?= $key ?>" <?= $filter_status == $key ? 'selected' : '' ?>><?= $label ?></option>
-        <?php endforeach; ?>
-      </select>
-    </div>
-    <div class="col-md-3">
-      <select name="kategori" class="form-select">
-        <option value="">Semua Kategori</option>
-        <?php mysqli_data_seek($kategori_list, 0); while ($k = mysqli_fetch_assoc($kategori_list)): ?>
-          <option value="<?= $k['id_kategori'] ?>" <?= $filter_kategori == $k['id_kategori'] ? 'selected' : '' ?>><?= htmlspecialchars($k['nama_kategori']) ?></option>
-        <?php endwhile; ?>
-      </select>
-    </div>
-    <div class="col-md-2">
-      <button type="submit" class="btn btn-primary w-100">Filter</button>
-    </div>
-    <div class="col-12">
-      <div class="form-check">
-        <input class="form-check-input" type="checkbox" name="tampilkan_spam" value="1" id="cek-spam" <?= $tampilkan_spam ? 'checked' : '' ?> onchange="this.form.submit()">
-        <label class="form-check-label small" for="cek-spam">Tampilkan pengaduan yang disembunyikan (spam)</label>
+  <div class="row g-3 mb-4">
+    <div class="col-6 col-md-3">
+      <div class="kartu-ringkas-admin">
+        <div class="label">Total Pengaduan</div>
+        <div class="angka"><?= (int) ($ringkas['total'] ?? 0) ?></div>
       </div>
     </div>
-  </form>
+    <div class="col-6 col-md-3">
+      <div class="kartu-ringkas-admin aksen-abu">
+        <div class="label">Diterima</div>
+        <div class="angka"><?= (int) ($ringkas['total_diterima'] ?? 0) ?></div>
+      </div>
+    </div>
+    <div class="col-6 col-md-3">
+      <div class="kartu-ringkas-admin aksen-emas">
+        <div class="label">Diproses</div>
+        <div class="angka"><?= (int) ($ringkas['total_diproses'] ?? 0) ?></div>
+      </div>
+    </div>
+    <div class="col-6 col-md-3">
+      <div class="kartu-ringkas-admin aksen-hijau">
+        <div class="label">Selesai</div>
+        <div class="angka"><?= (int) ($ringkas['total_selesai'] ?? 0) ?></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="kartu-formulir mb-3 py-3 px-3 px-md-4">
+    <form method="GET" class="row g-2 mb-2">
+      <div class="col-md-4">
+        <input type="text" name="search" class="form-control" placeholder="Cari tiket / nama..." value="<?= htmlspecialchars($search) ?>">
+      </div>
+      <div class="col-md-3">
+        <select name="status" class="form-select">
+          <option value="">Semua Status</option>
+          <?php foreach ($label_status as $key => $label): ?>
+            <option value="<?= $key ?>" <?= $filter_status == $key ? 'selected' : '' ?>><?= $label ?></option>
+          <?php endforeach; ?>
+        </select>
+      </div>
+      <div class="col-md-3">
+        <select name="kategori" class="form-select">
+          <option value="">Semua Kategori</option>
+          <?php mysqli_data_seek($kategori_list, 0); while ($k = mysqli_fetch_assoc($kategori_list)): ?>
+            <option value="<?= $k['id_kategori'] ?>" <?= $filter_kategori == $k['id_kategori'] ? 'selected' : '' ?>><?= htmlspecialchars($k['nama_kategori']) ?></option>
+          <?php endwhile; ?>
+        </select>
+      </div>
+      <div class="col-md-2">
+        <button type="submit" class="btn btn-primary w-100">Filter</button>
+      </div>
+      <div class="col-12">
+        <div class="form-check mt-1">
+          <input class="form-check-input" type="checkbox" name="tampilkan_spam" value="1" id="cek-spam" <?= $tampilkan_spam ? 'checked' : '' ?> onchange="this.form.submit()">
+          <label class="form-check-label small" for="cek-spam">Tampilkan pengaduan yang disembunyikan (spam)</label>
+        </div>
+      </div>
+    </form>
+  </div>
 
   <div class="d-flex gap-2 mb-3">
     <a href="export_excel.php?<?= http_build_query(['status'=>$filter_status,'kategori'=>$filter_kategori,'search'=>$search]) ?>" class="btn btn-outline-success btn-sm">📊 Export Excel</a>

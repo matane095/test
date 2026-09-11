@@ -93,8 +93,11 @@ include 'includes/header.php';
 ?>
 
 <div class="container py-5" style="max-width: 480px;">
-  <h4 class="mb-3">Verifikasi Email Pengaduan</h4>
-  <p class="text-muted">Masukkan kode 6 digit yang dikirim ke email kamu untuk tiket <strong><?= htmlspecialchars($ticket) ?></strong>.</p>
+  <div class="text-center mb-4">
+    <i class="bi bi-envelope-paper" style="font-size:30px; color: var(--color-brand);"></i>
+    <h4 class="mt-2 mb-1">Verifikasi Email Pengaduan</h4>
+    <p class="text-muted mb-0">Masukkan kode 6 digit yang dikirim ke email kamu untuk tiket <strong><?= htmlspecialchars($ticket) ?></strong>.</p>
+  </div>
 
   <?php if ($pesan_error): ?>
     <div class="alert alert-danger"><?= htmlspecialchars($pesan_error) ?></div>
@@ -104,7 +107,7 @@ include 'includes/header.php';
   <?php endif; ?>
 
   <?php if ($data && $data['email_terverifikasi'] == 0): ?>
-    <form method="POST" class="card p-4 shadow-sm">
+    <form method="POST" class="kartu-formulir">
       <input type="hidden" name="aksi" value="verifikasi">
       <div class="mb-3">
         <label class="form-label">Kode OTP</label>
@@ -113,13 +116,13 @@ include 'includes/header.php';
       <button type="submit" class="btn btn-primary w-100">Verifikasi</button>
     </form>
 
-    <form method="POST" class="mt-3">
+    <form method="POST" class="mt-3 text-center">
       <input type="hidden" name="aksi" value="kirim_ulang">
       <button type="submit" class="btn btn-link">Kirim ulang kode</button>
     </form>
   <?php endif; ?>
 
-  <a href="index.php" class="d-block mt-3">&larr; Kembali ke beranda</a>
+  <a href="index.php" class="d-block mt-3 text-center">&larr; Kembali ke beranda</a>
 </div>
 
 <?php include 'includes/footer.php'; ?>

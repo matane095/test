@@ -52,10 +52,11 @@ include '../includes/header.php';
 ?>
 
 <nav class="navbar navbar-petugas navbar-dark">
-  <div class="container">
-    <span class="navbar-brand mb-0">Halo, <?= htmlspecialchars($_SESSION['nama']) ?></span>
-    <div>
+  <div class="container flex-wrap gap-2">
+    <span class="navbar-brand mb-0"><i class="bi bi-person-badge"></i> Halo, <?= htmlspecialchars($_SESSION['nama']) ?></span>
+    <div class="d-flex flex-wrap gap-2">
       <a href="dashboard.php" class="btn btn-outline-light btn-sm">Dashboard</a>
+      <a href="dokumentasi.php" class="btn btn-outline-light btn-sm">Dokumentasi Kegiatan</a>
       <a href="logout.php" class="btn btn-outline-light btn-sm">Logout</a>
     </div>
   </div>
@@ -67,8 +68,8 @@ include '../includes/header.php';
   <?php if ($pesan): ?><div class="alert alert-success"><?= $pesan ?></div><?php endif; ?>
   <?php if ($error): ?><div class="alert alert-danger"><?= $error ?></div><?php endif; ?>
 
-  <div class="card p-4 shadow-sm mb-4">
-    <h6 class="mb-3">Tambah Petugas Baru</h6>
+  <div class="kartu-formulir mb-4">
+    <h6 class="mb-3 font-display"><i class="bi bi-person-plus" style="color: var(--color-accent-dark);"></i> Tambah Petugas Baru</h6>
     <form method="POST" class="row g-2">
       <input type="hidden" name="aksi" value="tambah">
       <div class="col-md-3"><input type="text" name="nama" class="form-control" placeholder="Nama lengkap" required></div>
@@ -95,7 +96,7 @@ include '../includes/header.php';
             <tr>
               <td><?= htmlspecialchars($u['nama']) ?></td>
               <td><?= htmlspecialchars($u['username']) ?></td>
-              <td><span class="badge bg-<?= $u['role']=='admin' ? 'primary' : 'secondary' ?>"><?= ucfirst($u['role']) ?></span></td>
+              <td><span class="badge <?= $u['role']=='admin' ? 'badge-kategori' : 'bg-secondary' ?>"><?= ucfirst($u['role']) ?></span></td>
               <td><span class="badge bg-<?= $u['aktif'] ? 'success' : 'danger' ?>"><?= $u['aktif'] ? 'Aktif' : 'Nonaktif' ?></span></td>
               <td><?= date('d M Y', strtotime($u['created_at'])) ?></td>
               <td>

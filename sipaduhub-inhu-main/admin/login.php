@@ -35,12 +35,16 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 }
 ?>
 
-<div class="container py-5" style="max-width:400px;">
-  <h4 class="mb-4">Login Petugas</h4>
+<div class="container py-5" style="max-width:420px;">
+  <div class="text-center mb-4">
+    <i class="bi bi-shield-lock" style="font-size:32px; color: var(--color-brand);"></i>
+    <h4 class="mt-2 mb-0">Login Petugas</h4>
+    <p class="text-muted small mb-0">Khusus untuk petugas &amp; admin SIPADU HUB</p>
+  </div>
   <?php if ($error): ?>
     <div class="alert alert-danger"><?= $error ?></div>
   <?php endif; ?>
-  <form method="POST" class="card p-4 shadow-sm">
+  <form method="POST" class="kartu-formulir">
     <div class="mb-3">
       <label class="form-label">Username</label>
       <input type="text" name="username" class="form-control" required>

@@ -24,15 +24,20 @@ $label_status = ['diterima'=>'Diterima','diproses'=>'Diproses','selesai'=>'Seles
 $warna_status = ['diterima'=>'primary','diproses'=>'warning','selesai'=>'success','ditolak'=>'danger'];
 ?>
 
+<div class="section-heading">
+  <div class="container">
+    <h1><i class="bi bi-clock-history"></i> Riwayat Pengaduan Saya</h1>
+    <p>Masuk sebagai <?= htmlspecialchars($_SESSION['pelapor_nama']) ?></p>
+  </div>
+</div>
+
 <div class="container py-5">
-  <a href="index.php" class="btn btn-outline-secondary btn-sm mb-3">&larr; Kembali</a>
-  <h2 class="mb-1">Riwayat Pengaduan Saya</h2>
-  <p class="text-muted mb-4">Masuk sebagai <?= htmlspecialchars($_SESSION['pelapor_nama']) ?></p>
 
   <?php if (mysqli_num_rows($data) == 0): ?>
     <div class="alert alert-secondary">Kamu belum pernah membuat pengaduan.</div>
   <?php else: ?>
     <div class="card shadow-sm">
+      <div class="table-scroll-wrap">
       <table class="table table-hover mb-0">
         <thead class="table-dark">
           <tr><th>Tiket</th><th>Tanggal</th><th>Kategori</th><th>Lokasi</th><th>Status</th></tr>
@@ -49,6 +54,7 @@ $warna_status = ['diterima'=>'primary','diproses'=>'warning','selesai'=>'success
           <?php endwhile; ?>
         </tbody>
       </table>
+      </div>
     </div>
   <?php endif; ?>
 </div>

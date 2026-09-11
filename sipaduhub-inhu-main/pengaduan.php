@@ -35,11 +35,11 @@ function isi($old, $key, $default = '') {
 
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
 
-<div class="container py-5">
-  <div class="d-flex justify-content-between align-items-start flex-wrap gap-2">
+<div class="section-heading">
+  <div class="container d-flex justify-content-between align-items-start flex-wrap gap-2">
     <div>
-      <h2 class="mb-1">Form Pengaduan Masyarakat</h2>
-      <p class="text-muted mb-0">Sampaikan keluhan terkait transportasi dan lalu lintas di wilayah Kabupaten Indragiri Hulu.</p>
+      <h1><i class="bi bi-pencil-square"></i> Form Pengaduan Masyarakat</h1>
+      <p>Sampaikan keluhan terkait transportasi dan lalu lintas di wilayah Kabupaten Indragiri Hulu.</p>
     </div>
 
     <?php if ($sudah_login): ?>
@@ -52,12 +52,15 @@ function isi($old, $key, $default = '') {
       <a href="login_google.php" class="btn btn-outline-dark btn-sm mt-1">Login dengan Google</a>
     <?php endif; ?>
   </div>
+</div>
 
-  <a href="lacak.php" class="btn btn-outline-primary btn-sm mb-4 mt-3">Lacak Pengaduan Saya</a>
+<div class="container py-5">
+
+  <a href="lacak.php" class="btn btn-outline-primary btn-sm mb-4">Lacak Pengaduan Saya</a>
 
   <?php if (!$sudah_login): ?>
-    <div class="alert alert-info mt-3" style="border-left: 4px solid var(--dishub-ungu);">
-      💡 <strong>Tips:</strong> Setelah mengirim pengaduan, <strong>catat nomor tiket Anda</strong> untuk melacak status nanti. 
+    <div class="kotak-info mb-3">
+      <i class="bi bi-lightbulb"></i> <strong>Tips:</strong> Setelah mengirim pengaduan, <strong>catat nomor tiket Anda</strong> untuk melacak status nanti.
       Atau, <a href="login_google.php">login dengan Google</a> supaya semua riwayat pengaduan Anda tersimpan otomatis dan bisa dilihat kapan saja tanpa perlu mengingat nomor tiket.
     </div>
   <?php endif; ?>
@@ -72,7 +75,7 @@ function isi($old, $key, $default = '') {
     <div class="alert alert-danger"><?= $pesan_error[$error_code] ?></div>
   <?php endif; ?>
 
-  <form action="simpan.php" method="POST" enctype="multipart/form-data" class="card p-4 shadow-sm" id="form-pengaduan" novalidate>
+  <form action="simpan.php" method="POST" enctype="multipart/form-data" class="kartu-formulir" id="form-pengaduan" novalidate>
     <div class="mb-3">
       <label class="form-label">Nama Pelapor</label>
       <input type="text" name="nama" id="f-nama" class="form-control" value="<?= $sudah_login ? htmlspecialchars($_SESSION['pelapor_nama']) : isi($old, 'nama') ?>">

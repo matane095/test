@@ -3,5 +3,7 @@ config/email_config.php
 vendor/
 uploads/pengaduan/*
 !uploads/pengaduan/.gitkeep
+uploads/kegiatan/*
+!uploads/kegiatan/.gitkeep
 buat_admin.php
 .DS_Store

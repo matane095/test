@@ -54,6 +54,7 @@ mysqli_stmt_execute($stmt2);
 $riwayat = mysqli_stmt_get_result($stmt2);
 
 $label_status = ['diterima'=>'Diterima','diproses'=>'Diproses','selesai'=>'Selesai','ditolak'=>'Ditolak'];
+$warna_status = ['diterima'=>'primary','diproses'=>'warning','selesai'=>'success','ditolak'=>'danger'];
 
 $judul_halaman = "Detail Pengaduan";
 $base_path = "../";
@@ -61,21 +62,28 @@ include '../includes/header.php';
 ?>
 
 <nav class="navbar navbar-petugas navbar-dark">
-  <div class="container">
-    <span class="navbar-brand mb-0">Halo, <?= htmlspecialchars($_SESSION['nama']) ?></span>
-    <a href="logout.php" class="btn btn-outline-light btn-sm">Logout</a>
+  <div class="container flex-wrap gap-2">
+    <span class="navbar-brand mb-0"><i class="bi bi-person-badge"></i> Halo, <?= htmlspecialchars($_SESSION['nama']) ?></span>
+    <div class="d-flex flex-wrap gap-2">
+      <a href="dashboard.php" class="btn btn-outline-light btn-sm">Dashboard</a>
+      <a href="dokumentasi.php" class="btn btn-outline-light btn-sm">Dokumentasi Kegiatan</a>
+      <a href="logout.php" class="btn btn-outline-light btn-sm">Logout</a>
+    </div>
   </div>
 </nav>
 
 <div class="container py-4" style="max-width:700px;">
   <a href="dashboard.php" class="btn btn-outline-secondary btn-sm mb-3">&larr; Kembali ke Dashboard</a>
 
-  <div class="card p-4 shadow-sm mb-4">
-    <div class="d-flex justify-content-between align-items-center mb-2">
-      <h5 class="mb-0"><?= htmlspecialchars($data['ticket']) ?></h5>
-      <?php if ($data['disembunyikan']): ?>
-        <span class="badge bg-dark">Disembunyikan (Spam)</span>
-      <?php endif; ?>
+  <div class="kartu-formulir mb-4">
+    <div class="d-flex justify-content-between align-items-center mb-3 flex-wrap gap-2">
+      <h5 class="mb-0 font-display"><?= htmlspecialchars($data['ticket']) ?></h5>
+      <div class="d-flex gap-2">
+        <span class="badge bg-<?= $warna_status[$data['status']] ?? 'primary' ?>"><?= $label_status[$data['status']] ?></span>
+        <?php if ($data['disembunyikan']): ?>
+          <span class="badge bg-dark">Disembunyikan (Spam)</span>
+        <?php endif; ?>
+      </div>
     </div>
     <table class="table table-borderless mb-0">
       <tr><td class="text-muted" style="width:150px;">Pelapor</td><td><?= htmlspecialchars($data['nama_pelapor']) ?></td></tr>
@@ -97,7 +105,7 @@ include '../includes/header.php';
       <tr><td class="text-muted">Titik Lokasi</td>
         <td>
           <?php if ($data['latitude'] && $data['longitude']): ?>
-            <a href="https://www.openstreetmap.org/?mlat=<?= $data['latitude'] ?>&mlon=<?= $data['longitude'] ?>#map=17/<?= $data['latitude'] ?>/<?= $data['longitude'] ?>" target="_blank">🗺️ Buka di Peta</a>
+            <a href="https://www.openstreetmap.org/?mlat=<?= $data['latitude'] ?>&mlon=<?= $data['longitude'] ?>#map=17/<?= $data['latitude'] ?>/<?= $data['longitude'] ?>" target="_blank" class="btn btn-outline-secondary btn-sm">🗺️ Buka di Peta</a>
             <a href="https://www.google.com/maps/dir/?api=1&destination=<?= $data['latitude'] ?>,<?= $data['longitude'] ?>" target="_blank" class="btn btn-outline-primary btn-sm">🧭 Rute ke Lokasi</a>
           <?php else: ?>
             <span class="text-muted">Tidak ditandai</span>
@@ -114,8 +122,8 @@ include '../includes/header.php';
     </form>
   </div>
 
-  <div class="card p-4 shadow-sm mb-4">
-    <h6>Perbarui Status</h6>
+  <div class="kartu-formulir mb-4">
+    <h6 class="mb-3 font-display">Perbarui Status</h6>
     <form method="POST">
       <input type="hidden" name="aksi" value="update_status">
       <div class="mb-3">
@@ -132,14 +140,14 @@ include '../includes/header.php';
     </form>
   </div>
 
-  <div class="card p-4 shadow-sm">
-    <h6>Riwayat Status</h6>
-    <ul class="list-group">
+  <div class="kartu-formulir">
+    <h6 class="mb-3 font-display">Riwayat Status</h6>
+    <ul class="list-group list-group-flush">
       <?php while ($r = mysqli_fetch_assoc($riwayat)): ?>
-        <li class="list-group-item">
-          <strong><?= $label_status[$r['status']] ?></strong>
+        <li class="list-group-item px-0">
+          <span class="badge bg-<?= $warna_status[$r['status']] ?? 'primary' ?> me-2"><?= $label_status[$r['status']] ?></span>
           <span class="text-muted small">
-            &middot; <?= date('d M Y, H:i', strtotime($r['waktu'])) ?>
+            <?= date('d M Y, H:i', strtotime($r['waktu'])) ?>
             <?= $r['nama_petugas'] ? ' oleh ' . htmlspecialchars($r['nama_petugas']) : '' ?>
           </span>
           <?php if ($r['catatan']): ?>

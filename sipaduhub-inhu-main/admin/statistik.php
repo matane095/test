@@ -49,10 +49,11 @@ while ($row = mysqli_fetch_assoc($status_result)) {
 ?>
 
 <nav class="navbar navbar-petugas navbar-dark">
-  <div class="container">
-    <span class="navbar-brand mb-0">Halo, <?= htmlspecialchars($_SESSION['nama']) ?></span>
-    <div>
+  <div class="container flex-wrap gap-2">
+    <span class="navbar-brand mb-0"><i class="bi bi-person-badge"></i> Halo, <?= htmlspecialchars($_SESSION['nama']) ?></span>
+    <div class="d-flex flex-wrap gap-2">
       <a href="dashboard.php" class="btn btn-outline-light btn-sm">Dashboard</a>
+      <a href="dokumentasi.php" class="btn btn-outline-light btn-sm">Dokumentasi Kegiatan</a>
       <a href="logout.php" class="btn btn-outline-light btn-sm">Logout</a>
     </div>
   </div>
@@ -63,47 +64,47 @@ while ($row = mysqli_fetch_assoc($status_result)) {
 
   <div class="row g-3 mb-4">
     <div class="col-6 col-md-3">
-      <div class="card p-3 shadow-sm text-center">
-        <div class="text-muted small">Total Pengaduan</div>
-        <div style="font-size:28px;font-weight:700;"><?= $total ?></div>
+      <div class="kartu-ringkas-admin">
+        <div class="label">Total Pengaduan</div>
+        <div class="angka"><?= $total ?></div>
       </div>
     </div>
     <div class="col-6 col-md-3">
-      <div class="card p-3 shadow-sm text-center">
-        <div class="text-muted small">Sedang Diproses</div>
-        <div style="font-size:28px;font-weight:700;color:#93611B;"><?= $diproses ?></div>
+      <div class="kartu-ringkas-admin aksen-emas">
+        <div class="label">Sedang Diproses</div>
+        <div class="angka" style="color: var(--color-status-diproses-text);"><?= $diproses ?></div>
       </div>
     </div>
     <div class="col-6 col-md-3">
-      <div class="card p-3 shadow-sm text-center">
-        <div class="text-muted small">Selesai</div>
-        <div style="font-size:28px;font-weight:700;color:#17563B;"><?= $selesai ?></div>
+      <div class="kartu-ringkas-admin aksen-hijau">
+        <div class="label">Selesai</div>
+        <div class="angka" style="color: var(--color-status-selesai-text);"><?= $selesai ?></div>
       </div>
     </div>
     <div class="col-6 col-md-3">
-      <div class="card p-3 shadow-sm text-center">
-        <div class="text-muted small">Ditolak</div>
-        <div style="font-size:28px;font-weight:700;color:#B23A2C;"><?= $ditolak ?></div>
+      <div class="kartu-ringkas-admin" style="border-top-color: var(--color-status-ditolak-text);">
+        <div class="label">Ditolak</div>
+        <div class="angka" style="color: var(--color-status-ditolak-text);"><?= $ditolak ?></div>
       </div>
     </div>
   </div>
 
   <div class="row g-3">
     <div class="col-lg-6">
-      <div class="card p-4 shadow-sm">
-        <h6 class="mb-3">Pengaduan per Kategori</h6>
+      <div class="kartu-formulir">
+        <h6 class="mb-3 font-display">Pengaduan per Kategori</h6>
         <canvas id="chartKategori"></canvas>
       </div>
     </div>
     <div class="col-lg-6">
-      <div class="card p-4 shadow-sm">
-        <h6 class="mb-3">Distribusi Status</h6>
+      <div class="kartu-formulir">
+        <h6 class="mb-3 font-display">Distribusi Status</h6>
         <canvas id="chartStatus"></canvas>
       </div>
     </div>
     <div class="col-12">
-      <div class="card p-4 shadow-sm">
-        <h6 class="mb-3">Tren Pengaduan 6 Bulan Terakhir</h6>
+      <div class="kartu-formulir">
+        <h6 class="mb-3 font-display">Tren Pengaduan 6 Bulan Terakhir</h6>
         <canvas id="chartTren"></canvas>
       </div>
     </div>
@@ -119,7 +120,8 @@ new Chart(document.getElementById('chartKategori'), {
     datasets: [{
       label: 'Jumlah Pengaduan',
       data: <?= json_encode($data_kategori) ?>,
-      backgroundColor: '#0B3D62'
+      backgroundColor: '#301D6E',
+      borderRadius: 4
     }]
   },
   options: {
@@ -135,7 +137,7 @@ new Chart(document.getElementById('chartStatus'), {
     labels: ['Diterima', 'Diproses', 'Selesai', 'Ditolak'],
     datasets: [{
       data: [<?= $data_status['diterima'] ?>, <?= $data_status['diproses'] ?>, <?= $data_status['selesai'] ?>, <?= $data_status['ditolak'] ?>],
-      backgroundColor: ['#1B4F8C', '#E8A33D', '#17563B', '#B23A2C']
+      backgroundColor: ['#2461B3', '#FFC412', '#1E8E5A', '#C6303E']
     }]
   },
   options: { responsive: true }
@@ -148,8 +150,8 @@ new Chart(document.getElementById('chartTren'), {
     datasets: [{
       label: 'Jumlah Pengaduan',
       data: <?= json_encode($data_bulan) ?>,
-      borderColor: '#C9A227',
-      backgroundColor: 'rgba(201,162,39,0.15)',
+      borderColor: '#301D6E',
+      backgroundColor: 'rgba(48,29,110,0.10)',
       fill: true,
       tension: 0.3
     }]
